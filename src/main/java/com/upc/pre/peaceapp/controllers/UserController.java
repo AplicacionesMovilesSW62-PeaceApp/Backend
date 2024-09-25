@@ -1,6 +1,6 @@
 package com.upc.pre.peaceapp.controllers;
 
-import com.upc.pre.peaceapp.models.User;
+import com.upc.pre.peaceapp.models.UserProfile;
 import com.upc.pre.peaceapp.services.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ public class UserController {
     @GetMapping("/{email}")
     public ResponseEntity<?> getUserByEmail(@PathVariable String email) {
         try {
-            User user = userService.findByEmail(email);
+            UserProfile user = userService.findByEmail(email);
             if(user == null) {
                 return ResponseEntity.badRequest().body("User not found");
             }
@@ -32,9 +32,9 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createUser(@RequestBody User user) {
+    public ResponseEntity<?> createUser(@RequestBody UserProfile user) {
         try {
-            User createdUser = userService.save(user);
+            UserProfile createdUser = userService.save(user);
             return ResponseEntity.ok(createdUser);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -42,9 +42,9 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody User user) {
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserProfile user) {
         try {
-            User updatedUser = userService.update(id, user);
+            UserProfile updatedUser = userService.update(id, user);
             return ResponseEntity.ok(updatedUser);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
