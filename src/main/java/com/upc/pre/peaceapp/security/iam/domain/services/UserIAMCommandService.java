@@ -1,0 +1,14 @@
+package com.upc.pre.peaceapp.security.iam.domain.services;
+
+
+import com.upc.pre.peaceapp.security.iam.domain.model.aggregates.User;
+import com.upc.pre.peaceapp.security.iam.domain.model.commands.SignInCommand;
+import com.upc.pre.peaceapp.security.iam.domain.model.commands.SignUpCommand;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+
+import java.util.Optional;
+
+public interface UserIAMCommandService {
+    Optional<User> handle(SignUpCommand command);
+    Optional<ImmutablePair<User, String>> handle(SignInCommand command);
+}
