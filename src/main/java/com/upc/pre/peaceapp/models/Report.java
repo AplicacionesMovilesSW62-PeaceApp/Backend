@@ -28,11 +28,16 @@ public class Report extends AuditableAbstractAggregateRoot<Report> {
     @Column(name = "id_user", nullable = false)
     private Long idUser;
 
-    public Report(String title, String detail, String type, Long idUser) {
+    @Getter
+    @Column(name = "image", nullable = true, length = 500)
+    private String image;
+
+    public Report(String title, String detail, String type, Long idUser, String image) {
         this.title = title;
         this.detail = detail;
         this.type = type;
         this.idUser = idUser;
+        this.image = image;
     }
 
     public Report() {
