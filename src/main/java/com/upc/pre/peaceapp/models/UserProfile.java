@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class UserProfile extends AuditableAbstractAggregateRoot<UserProfile> {
+public class    UserProfile extends AuditableAbstractAggregateRoot<UserProfile> {
     private String name;
     private String email;
     private String password;
