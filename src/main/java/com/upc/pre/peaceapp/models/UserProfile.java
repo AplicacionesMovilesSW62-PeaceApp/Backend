@@ -8,12 +8,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class    UserProfile extends AuditableAbstractAggregateRoot<UserProfile> {
+public class UserProfile extends AuditableAbstractAggregateRoot<UserProfile> {
     private String name;
     private String email;
     private String password;
     private String lastname;
     private String phonenumber;
+    private String user_id;
 
     public UserProfile() {
         this.name = "";
@@ -21,13 +22,15 @@ public class    UserProfile extends AuditableAbstractAggregateRoot<UserProfile> 
         this.password = "";
         this.lastname = "";
         this.phonenumber = "";
+        this.user_id = "";
     }
 
-    public UserProfile(String name, String email, String password, String lastname, String phonenumber) {
+    public UserProfile(String name, String email, String password, String lastname, String phonenumber, String user_id) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.lastname = lastname;
         this.phonenumber = phonenumber;
+        this.user_id = user_id;
     }
 }

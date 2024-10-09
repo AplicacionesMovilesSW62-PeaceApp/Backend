@@ -35,7 +35,7 @@ public class UserController {
     @PostMapping
     public ResponseEntity<?> createUser(@RequestBody UserProfileSchema user) {
         try {
-            UserProfile newUser = new UserProfile(user.name(), user.lastname(), user.phonenumber(), user.email(), user.password());
+            UserProfile newUser = new UserProfile(user.name(), user.lastname(), user.phonenumber(), user.email(), user.password(), user.user_id());
             UserProfile createdUser = userService.save(newUser);
             return ResponseEntity.ok(createdUser);
         } catch (Exception e) {
