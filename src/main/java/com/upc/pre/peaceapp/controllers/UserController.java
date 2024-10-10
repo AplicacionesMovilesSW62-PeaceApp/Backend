@@ -2,6 +2,7 @@ package com.upc.pre.peaceapp.controllers;
 
 import com.upc.pre.peaceapp.models.UserProfile;
 import com.upc.pre.peaceapp.schemas.UserProfileSchema;
+import com.upc.pre.peaceapp.security.iam.domain.services.UserIAMCommandService;
 import com.upc.pre.peaceapp.services.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +13,11 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Users", description = "Users API")
 public class UserController {
     private final UserService userService;
+    private final UserIAMCommandService userIAMCommandService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserIAMCommandService userIAMCommandService) {
         this.userService = userService;
+        this.userIAMCommandService = userIAMCommandService;
     }
 
     @GetMapping("/{email}")
@@ -32,10 +35,29 @@ public class UserController {
         }
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteUserByEmail(@PathVariable Long id) {
+        try {
+            userService.deleteById(id);
+            userIAMCommandService.deleteById(id);
+
+            return ResponseEntity.ok("User deleted in both tables");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @PostMapping
     public ResponseEntity<?> createUser(@RequestBody UserProfileSchema user) {
         try {
-            UserProfile newUser = new UserProfile(user.name(), user.lastname(), user.phonenumber(), user.email(), user.password(), user.user_id());
+            UserProfile newUser = new UserProfile(
+                    user.name(),
+                    user.email(),
+                    user.password(),
+                    user.lastname(),
+                    user.phonenumber(),
+                    user.user_id(),
+                    user.profile_image());
             UserProfile createdUser = userService.save(newUser);
             return ResponseEntity.ok(createdUser);
         } catch (Exception e) {

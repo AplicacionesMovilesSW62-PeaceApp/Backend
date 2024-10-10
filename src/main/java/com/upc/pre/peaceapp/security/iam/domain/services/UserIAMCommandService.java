@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface UserIAMCommandService {
     Optional<User> handle(SignUpCommand command);
     Optional<ImmutablePair<User, String>> handle(SignInCommand command);
+    // delete user
+    void deleteById(Long id);
 }

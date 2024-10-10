@@ -1,5 +1,6 @@
 package com.upc.pre.peaceapp.security.iam.application.internal.commandservices;
 
+import com.upc.pre.peaceapp.repositories.UserRoleRepository;
 import com.upc.pre.peaceapp.security.iam.application.internal.outboundservices.hashing.HashingService;
 import com.upc.pre.peaceapp.security.iam.application.internal.outboundservices.tokens.TokenService;
 import com.upc.pre.peaceapp.security.iam.domain.model.aggregates.User;
@@ -22,12 +23,14 @@ public class UserIAMCommandServiceImpl implements UserIAMCommandService {
     private final HashingService hashingService;
     private final TokenService tokenService;
     private final RoleRepository roleRepository;
+    private final UserRoleRepository userRoleRepository;
 
-    public UserIAMCommandServiceImpl(UserIAMRepository userRepository, HashingService hashingService, TokenService tokenService, RoleRepository roleRepository) {
+    public UserIAMCommandServiceImpl(UserIAMRepository userRepository, HashingService hashingService, TokenService tokenService, RoleRepository roleRepository, UserRoleRepository userRoleRepository) {
         this.userRepository = userRepository;
         this.hashingService = hashingService;
         this.tokenService = tokenService;
         this.roleRepository = roleRepository;
+        this.userRoleRepository = userRoleRepository;
     }
 
     @Override
@@ -58,5 +61,14 @@ public class UserIAMCommandServiceImpl implements UserIAMCommandService {
             throw new RuntimeException("Invalid password");
         var token = tokenService.generateToken(user.get().getUsername());
         return Optional.of(ImmutablePair.of(user.get(), token));
+    }
+    // delete user
+    @Override
+    public void deleteById(Long id) {
+        userRoleRepository.deleteRolesByUserId(id);
+        // delete from user_role
+
+        System.out.println("User deleted");
+        userRepository.deleteById(id);
     }
 }

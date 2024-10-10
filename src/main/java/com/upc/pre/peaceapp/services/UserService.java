@@ -15,6 +15,9 @@ public class UserService {
     public UserProfile findByEmail(String email) {
         return repository.findByEmail(email);
     }
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
 
     public UserProfile save(UserProfile user) {
         return repository.save(user);
