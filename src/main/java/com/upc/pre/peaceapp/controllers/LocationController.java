@@ -21,7 +21,7 @@ public class LocationController {
 
     @PostMapping("/")
     public ResponseEntity<?> saveNewLocation(@RequestBody LocationSchema location) {
-        try{
+        try {
             return ResponseEntity.created(null).body(service.saveLocation(location));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));

@@ -16,7 +16,7 @@ public class ReportService {
     }
 
     public Report saveReport(ReportSchema report) {
-        Report newReport = repository.save(new Report(report.title(), report.detail(), report.type(), report.user_id(), report.image()));
+        Report newReport = repository.save(new Report(report.title(), report.detail(), report.type(), report.user_id(), report.image(), report.address()));
         return newReport;
     }
 
