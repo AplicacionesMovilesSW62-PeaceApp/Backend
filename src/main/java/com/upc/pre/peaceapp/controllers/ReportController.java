@@ -30,6 +30,15 @@ public class ReportController {
         }
     }
 
+    @GetMapping("/")
+    public ResponseEntity<?> getAllReports() {
+        try {
+            return ResponseEntity.ok(service.findAll());
+        }catch(Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+        }
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getReportById(@PathVariable Long id) {
         try {

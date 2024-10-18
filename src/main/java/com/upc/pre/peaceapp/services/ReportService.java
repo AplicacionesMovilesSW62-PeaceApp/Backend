@@ -16,8 +16,12 @@ public class ReportService {
     }
 
     public Report saveReport(ReportSchema report) {
-        Report newReport = repository.save(new Report(report.title(), report.detail(), report.type(), report.user_id()));
+        Report newReport = repository.save(new Report(report.title(), report.detail(), report.type(), report.user_id(), report.image(), report.address()));
         return newReport;
+    }
+
+    public List<Report> findAll() {
+        return repository.findAll();
     }
 
     public Report findById(Long id) {
