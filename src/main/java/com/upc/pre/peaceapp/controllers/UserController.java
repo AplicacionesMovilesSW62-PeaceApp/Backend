@@ -1,6 +1,7 @@
 package com.upc.pre.peaceapp.controllers;
 
 import com.upc.pre.peaceapp.models.UserProfile;
+import com.upc.pre.peaceapp.schemas.UpdateUserProfileSchema;
 import com.upc.pre.peaceapp.schemas.UserProfileSchema;
 import com.upc.pre.peaceapp.security.iam.domain.services.UserIAMCommandService;
 import com.upc.pre.peaceapp.services.UserService;
@@ -66,7 +67,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserProfile user) {
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UpdateUserProfileSchema user) {
         try {
             UserProfile updatedUser = userService.update(id, user);
             return ResponseEntity.ok(updatedUser);
