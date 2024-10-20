@@ -34,14 +34,18 @@ public class Alert extends AuditableAbstractAggregateRoot<Alert> {
     @Column(name = "id_user", nullable = false)
     private int idUser;
 
-    @Column(name = "image_url", nullable = true, length = 255) // New field for image URL
+    @Column(name = "image_url", nullable = true, length = 255)
     private String imageUrl;
 
-    public Alert(String location, String type, String description, int idUser, String imageUrl) {
+    @Column(name = "id_report", nullable = true)
+    private Long idReport; // Foreign key for report ID
+
+    public Alert(String location, String type, String description, int idUser, String imageUrl, Long idReport) {
         this.location = location;
         this.type = type;
         this.description = description;
         this.idUser = idUser;
-        this.imageUrl = imageUrl; // Set the image URL
+        this.imageUrl = imageUrl;
+        this.idReport = idReport; // Set the report ID
     }
 }
