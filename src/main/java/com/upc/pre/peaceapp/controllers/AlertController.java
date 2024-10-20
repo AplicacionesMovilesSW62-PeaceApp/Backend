@@ -64,4 +64,13 @@ public class AlertController {
             return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
         }
     }
+    @DeleteMapping("/")
+    public ResponseEntity<?> deleteAllAlerts() {
+        try {
+            service.deleteAllAlerts();
+            return ResponseEntity.ok(Map.of("message", "All alerts have been deleted"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+        }
+    }
 }
