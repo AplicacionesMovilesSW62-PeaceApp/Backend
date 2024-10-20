@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface AlertRepository extends JpaRepository<Alert, Long> {
+public interface AlertRepository extends JpaRepository<Alert, Long> { // Changed Integer to Long
     @Query(value = "SELECT * FROM alerts WHERE id_user = ?1", nativeQuery = true)
-    List<Alert> findByUserId(Long userId);
+    List<Alert> findByUserId(int userId);
 }

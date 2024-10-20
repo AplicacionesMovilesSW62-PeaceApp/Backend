@@ -7,6 +7,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -23,9 +25,9 @@ public class AlertController {
     public ResponseEntity<?> newAlert(@RequestBody AlertSchema alert) {
         try {
             Alert newAlert = service.saveAlert(alert);
-            return ResponseEntity.created(null).body(newAlert);
+            URI location = URI.create(String.format("/api/v1/alerts/%d", newAlert.getId()));
+            return ResponseEntity.created(location).body(newAlert);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
         }
     }
@@ -38,17 +40,35 @@ public class AlertController {
                 return ResponseEntity.badRequest().body(Map.of("message", "Alert not found"));
             }
             return ResponseEntity.ok(alert);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
         }
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<?> getAlertsByUserId(@PathVariable Long userId) {
+    public ResponseEntity<?> getAlertsByUserId(@PathVariable int userId) {
         try {
-            return ResponseEntity.ok(service.findByUserId(userId));
+            List<Alert> alerts = service.findByUserId(userId);
+            return ResponseEntity.ok(alerts);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+        }
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<?> getAllAlerts() {
+        try {
+            List<Alert> alerts = service.findAll();
+            return alerts.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(alerts);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+        }
+    }
+    @DeleteMapping("/")
+    public ResponseEntity<?> deleteAllAlerts() {
+        try {
+            service.deleteAllAlerts();
+            return ResponseEntity.ok(Map.of("message", "All alerts have been deleted"));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
         }

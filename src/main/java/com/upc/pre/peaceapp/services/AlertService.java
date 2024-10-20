@@ -15,16 +15,23 @@ public class AlertService {
         this.repository = repository;
     }
 
-    public Alert saveAlert(AlertSchema alert) {
-        Alert newAlert = repository.save(new Alert(alert.location(), alert.type(), alert.description(), alert.user_id()));
-        return newAlert;
+    public Alert saveAlert(AlertSchema alertSchema) {
+        Alert newAlert = new Alert(alertSchema.location(), alertSchema.type(), alertSchema.description(), alertSchema.user_id(), alertSchema.image_url()); // Include image_url
+        return repository.save(newAlert);
+    }
+
+    public List<Alert> findByUserId(int userId) {
+        return repository.findByUserId(userId);
     }
 
     public Alert findById(Long id) {
         return repository.findById(id).orElse(null);
     }
 
-    public List<Alert> findByUserId(Long userId) {
-        return repository.findByUserId(userId);
+    public List<Alert> findAll() {
+        return repository.findAll();
+    }
+    public void deleteAllAlerts() {
+        repository.deleteAll();
     }
 }
