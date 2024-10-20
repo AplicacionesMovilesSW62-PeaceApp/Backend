@@ -31,4 +31,7 @@ public class AlertService {
     public List<Alert> findAll() {
         return repository.findAll();
     }
+    public void deleteAllAlerts() {
+        repository.deleteAll();
+    }
 }
