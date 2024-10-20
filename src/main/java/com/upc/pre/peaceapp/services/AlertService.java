@@ -23,6 +23,7 @@ public class AlertService {
 
     public List<Alert> findByUserId(int userId) {
         return repository.findByUserId(userId);
+
     }
 
     public Alert findById(Long id) {
