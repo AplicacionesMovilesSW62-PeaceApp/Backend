@@ -23,6 +23,9 @@ public class AlertController {
     @PostMapping("/")
     public ResponseEntity<?> newAlert(@RequestBody AlertSchema alert) {
         try {
+            // Log the incoming alertSchema for debugging
+            System.out.println("Received alert: " + alert);
+
             Alert newAlert = service.saveAlert(alert);
             URI location = URI.create(String.format("/api/v1/alerts/%d", newAlert.getId()));
             return ResponseEntity.created(location).body(newAlert);
