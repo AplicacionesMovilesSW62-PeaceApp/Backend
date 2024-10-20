@@ -20,7 +20,6 @@ public class AlertController {
     public AlertController(AlertService service) {
         this.service = service;
     }
-
     @PostMapping("/")
     public ResponseEntity<?> newAlert(@RequestBody AlertSchema alert) {
         try {
@@ -31,6 +30,7 @@ public class AlertController {
             return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
         }
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getAlertById(@PathVariable Long id) {
