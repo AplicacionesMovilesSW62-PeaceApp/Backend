@@ -16,13 +16,14 @@ public class AlertService {
     }
 
     public Alert saveAlert(AlertSchema alertSchema) {
-        Alert newAlert = new Alert(alertSchema.location(), alertSchema.type(), alertSchema.description(), alertSchema.user_id(), alertSchema.image_url(), alertSchema.idReport());
+        Alert newAlert = new Alert(alertSchema.location(), alertSchema.type(), alertSchema.description(), alertSchema.idUser(), alertSchema.image_url(), alertSchema.idReport());
         return repository.save(newAlert);
     }
 
 
     public List<Alert> findByUserId(int userId) {
         return repository.findByUserId(userId);
+
     }
 
     public Alert findById(Long id) {
