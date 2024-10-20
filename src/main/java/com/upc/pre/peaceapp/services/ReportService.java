@@ -32,4 +32,8 @@ public class ReportService {
         return repository.findByUserId(userId);
     }
 
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
+
 }
