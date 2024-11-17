@@ -1,6 +1,7 @@
 package com.upc.pre.peaceapp.controllers;
 
 import com.upc.pre.peaceapp.models.UserProfile;
+import com.upc.pre.peaceapp.schemas.UpdateUserPasswordSchema;
 import com.upc.pre.peaceapp.schemas.UpdateUserProfileSchema;
 import com.upc.pre.peaceapp.schemas.UserProfileSchema;
 import com.upc.pre.peaceapp.security.iam.domain.services.UserIAMCommandService;
@@ -70,6 +71,16 @@ public class UserController {
     public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UpdateUserProfileSchema user) {
         try {
             UserProfile updatedUser = userService.update(id, user);
+            return ResponseEntity.ok(updatedUser);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping("change-password/{id}")
+    public ResponseEntity<?> updateUserPassword(@PathVariable Long id, @RequestBody UpdateUserPasswordSchema user) {
+        try {
+            UserProfile updatedUser = userService.updatePassword(id, user);
             return ResponseEntity.ok(updatedUser);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
