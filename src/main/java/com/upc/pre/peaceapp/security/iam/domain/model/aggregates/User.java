@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.List;
@@ -13,17 +14,21 @@ import java.util.Set;
 
 @Entity
 public class User extends AuditableAbstractAggregateRoot<User> {
+    @Setter
     @NotBlank
     @Getter
     @Size(max = 50)
     @Column(unique = true)
     private String username;
 
+    @Setter
     @Getter
     @NotBlank
     @Size(max = 120)
     private String password;
 
+
+    @Setter
     @Getter
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
