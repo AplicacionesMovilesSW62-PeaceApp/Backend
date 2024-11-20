@@ -2,6 +2,7 @@ package com.upc.pre.peaceapp.services;
 
 import com.upc.pre.peaceapp.models.UserProfile;
 import com.upc.pre.peaceapp.repositories.UserRepository;
+import com.upc.pre.peaceapp.schemas.UpdateUserPasswordSchema;
 import com.upc.pre.peaceapp.schemas.UpdateUserProfileSchema;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,13 @@ public class UserService {
         existingUser.setLastname(user.getLastname());
         existingUser.setPhonenumber(user.getPhonenumber());
         existingUser.setProfile_image(user.getProfile_image());
+        repository.save(existingUser);
+        return existingUser;
+    }
+
+    public UserProfile updatePassword(Long id, UpdateUserPasswordSchema user) {
+        UserProfile existingUser = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        existingUser.setPassword(user.getPassword());
         repository.save(existingUser);
         return existingUser;
     }

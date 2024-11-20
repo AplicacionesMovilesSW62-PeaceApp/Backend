@@ -1,20 +1,15 @@
 package com.upc.pre.peaceapp.security.iam.interfaces.rest;
 
 import com.upc.pre.peaceapp.security.iam.domain.services.UserIAMCommandService;
+import com.upc.pre.peaceapp.security.iam.interfaces.rest.resources.ChangePasswordResource;
 import com.upc.pre.peaceapp.security.iam.interfaces.rest.resources.SignInResource;
 import com.upc.pre.peaceapp.security.iam.interfaces.rest.resources.SignUpResource;
-import com.upc.pre.peaceapp.security.iam.interfaces.rest.transform.AuthenticatedUserResourceFromEntityAssembler;
-import com.upc.pre.peaceapp.security.iam.interfaces.rest.transform.SignInCommandFromResourceAssembler;
-import com.upc.pre.peaceapp.security.iam.interfaces.rest.transform.SignUpCommandFromResourceAssembler;
-import com.upc.pre.peaceapp.security.iam.interfaces.rest.transform.UserResourceFromEntityAssembler;
+import com.upc.pre.peaceapp.security.iam.interfaces.rest.transform.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * AuthenticationController
@@ -77,6 +72,22 @@ public class AuthIAMController {
             var bodyJSON = "{\"message\": \"" + e.getMessage() + "\"}";
             return ResponseEntity.ok().body(bodyJSON);
         }
-
     }
+
+    @PutMapping("/change-password")
+    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordResource changePasswordResource) {
+        try {
+            var changePasswordCommand = changePasswordCommandFromResourceAssembler.toCommandFromResource(changePasswordResource);
+            var user = userCommandService.handle(changePasswordCommand);
+            if (user.isEmpty()) {
+                return ResponseEntity.badRequest().build();
+            }
+            var userResource = UserResourceFromEntityAssembler.toResourceFromEntity(user.get());
+            return new ResponseEntity<>(userResource, HttpStatus.ACCEPTED);
+        }catch(Exception e) {
+            var bodyJSON = "{\"message\": \"" + e.getMessage() + "\"}";
+            return ResponseEntity.ok().body(bodyJSON);
+        }
+    }
+
 }
